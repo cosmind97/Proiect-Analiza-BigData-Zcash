@@ -60,3 +60,46 @@ if score_rf > score_lr:
     print("\nConclusion: The Random Forest model provided the best results.")
 else:
     print("\nConclusion: The Linear Regression model provided the best results.")
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.figure(figsize=(14, 6))
+
+sns.lineplot(data=df, x='timestamp', y='transaction_count', color='orange')
+
+plt.title('Evoluția Numărului de Tranzacții Zcash în Timp', fontsize=16)
+plt.xlabel('Data', fontsize=12)
+plt.ylabel('Număr Tranzacții', fontsize=12)
+plt.grid(True, alpha=0.3)
+plt.show()
+
+plt.figure(figsize=(10, 6))
+
+sns.scatterplot(data=df, x='block_size', y='transaction_count', alpha=0.5, color='teal')
+
+plt.title('Relația dintre Mărimea Blocului și Nr. de Tranzacții', fontsize=16)
+plt.xlabel('Mărimea Blocului (Bytes)', fontsize=12)
+plt.ylabel('Număr Tranzacții', fontsize=12)
+plt.show()
+
+activity_by_hour = df.groupby('hour')['transaction_count'].mean().reset_index()
+
+plt.figure(figsize=(12, 6))
+sns.barplot(data=activity_by_hour, x='hour', y='transaction_count', palette='viridis')
+
+plt.title('Activitatea Medie a Tranzacțiilor pe Ore', fontsize=16)
+plt.xlabel('Ora Zilei (0-23)', fontsize=12)
+plt.ylabel('Media Tranzacțiilor', fontsize=12)
+plt.show()
+
+plt.figure(figsize=(10, 6))
+
+sns.scatterplot(x=y_test, y=pred_rf, color='purple', alpha=0.5)
+
+plt.plot([y.min(), y.max()], [y.min(), y.max()], 'r--', lw=2)
+
+plt.title('Performanța Modelului: Valori Reale vs. Predicții', fontsize=16)
+plt.xlabel('Valori Reale (Tranzacții)', fontsize=12)
+plt.ylabel('Valori Prezise', fontsize=12)
+plt.show()
